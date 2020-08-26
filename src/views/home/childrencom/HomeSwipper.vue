@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style scoped>
+.HomeSwipper {
+  width: 100%;
+}
 img {
   width: 100%;
 }

@@ -4,7 +4,8 @@ export function request(config) {
   const instance = Axios.create({
     // baseURL: "http://123.207.32.32:8000'",
     // baseURL: 'http://adi-v3.dev',
-    baseURL: "http://123.207.32.32:8000/api/v1",
+    // baseURL: "http://123.207.32.32:8000/api/v1",
+    baseURL: "http://152.136.185.210:8000/api/z8",
     timeout: 10000
   })
 
