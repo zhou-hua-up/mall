@@ -19,6 +19,7 @@ export function request(config) {
   })
 
   instance.interceptors.response.use(res => {
+    
     return res.data
   }, error => {
     console.log(error);

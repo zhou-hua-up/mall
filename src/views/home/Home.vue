@@ -4,19 +4,14 @@
       <div slot="center">购物中心</div>
     </nav-bar>
    <homeSwipper :banners="banners"/>
-     <!-- <swipper>
-        <CarouselItem v-for="(item, key) in banners" :key="key">
-          <a :href="item.link">
-            <img :src="item.image" alt />
-          </a>
-        </CarouselItem>
-    </swipper> -->
+   <recommend :recommends="recommends" />
   </div>
 </template>
 
 <script>
 import navBar from "components/common/navbar/Navbar";
 import homeSwipper from './childrencom/HomeSwipper';
+import recommend from './childrencom/recommend'
 
 import { getHomeMultiData } from "network/home";
 
@@ -24,12 +19,13 @@ export default {
   name: "App",
   components: {
     navBar,
-    homeSwipper
+    homeSwipper,
+    recommend
   },
   data() {
     return {
       banners: [],
-      recommend: [],
+      recommends: [],
     };
   },
   created() {
