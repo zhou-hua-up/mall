@@ -25,6 +25,7 @@ export default {
   methods: {
     itemCheck(index) {
       this.currentIndex = index;
+      this.$emit("tabClick", index)
     }
   }
 };
@@ -39,6 +40,8 @@ export default {
 
   position: sticky;
   top: 44px;
+
+  z-index: 9;
 }
 .tabItem {
   flex: 1;
