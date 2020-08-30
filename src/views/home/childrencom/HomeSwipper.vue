@@ -3,7 +3,7 @@
      <swipper>
         <CarouselItem v-for="(item, key) in banners" :key="key">
           <a :href="item.link">
-            <img :src="item.image" alt />
+            <img :src="item.image" alt @load="swipperImgLoad"/>
           </a>
         </CarouselItem>
     </swipper>
@@ -22,8 +22,22 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      isEmit: false
+    }
+  },
   components: {
     swipper
+  },
+  methods: {
+    swipperImgLoad() {
+      // 我们只需要一张图片加载完成得发送
+      if (!this.isEmit) {
+        this.$emit("swipperLoad")
+        this.isEmit = true
+      }
+    }
   }
 }
 </script>

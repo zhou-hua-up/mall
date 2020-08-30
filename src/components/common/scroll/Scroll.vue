@@ -10,6 +10,20 @@
 import BScroll from "better-scroll";
 export default {
   name: "App",
+  props: {
+    probetype: {
+      type: Number,
+      default() {
+        return 0
+      }
+    },
+     pullupload: {
+        type: Boolean,
+        default() {
+          return false
+        }
+      }
+  },
   data() {
     return {
       scroll: null,
@@ -19,17 +33,32 @@ export default {
     this.$nextTick(() => {
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.wrapper, {
-          click: true
+          click: true,
+          probeType: this.probetype,
+          pullUpLoad: this.pullupload
         });
         console.log(this.scroll);
-      } 
+        this.scroll.on("scroll", (position) => {
+          this.$emit("scrollHeight", position)
+        })
+        this.scroll.on("pullingUp", () => {
+          this.$emit("pullingUp")
+        })
+      }
     });
   },
   methods: {
-     refresh(){
-      this.scroll.refresh()
+    refreshScroll() {
+      console.log("....");
+      this.scroll && this.scroll.refresh();
+    },
+    scrollTo(x, y, time = 300) {
+      this.scroll && this.scroll.scrollTo(x, y, time);
+    },
+    finishPullUp() {
+      this.scroll.finishPullUp();
     }
-  }
+  },
 };
 </script>
 

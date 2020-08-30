@@ -25,9 +25,9 @@ export default {
   methods: {
     itemCheck(index) {
       this.currentIndex = index;
-      this.$emit("tabClick", index)
-    }
-  }
+      this.$emit("tabClick", index);
+    },
+  },
 };
 </script>
 
@@ -38,10 +38,11 @@ export default {
   font-size: 14px;
   background-color: #fff;
 
-  position: sticky;
-  top: 44px;
+  /* 这只用于原生js滚动停留 */
+  /* position: sticky;
+  top: 44px; */
 
-  z-index: 9;
+  /* z-index: 9; */
 }
 .tabItem {
   flex: 1;

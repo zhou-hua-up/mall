@@ -1,8 +1,6 @@
 <template>
   <div class="GoodsListItem">
-    <a :href="goodsItem.link">
-      <img :src="goodsItem.show.img" alt @load="imageLoad" />
-    </a>
+      <img :src="goodsItem.show.img" alt @load="imageLoad"  @click="itemClick" />
     <div class="info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -25,6 +23,11 @@ export default {
   methods: {
     imageLoad() {
       this.$bus.$emit("ItemImageLoad")
+    },
+    itemClick() {
+      // 拼接参数
+      this.$router.push("/detail/" + this.goodsItem.iid)
+      // console.log("点击");
     }
   }
 };
