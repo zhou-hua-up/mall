@@ -35,7 +35,11 @@ export default {
         this.scroll = new BScroll(this.$refs.wrapper, {
           click: true,
           probeType: this.probetype,
-          pullUpLoad: this.pullupload
+          pullUpLoad: this.pullupload,
+
+          mouseWheel: true,//开启鼠标滚轮
+          disableMouse: false,//启用鼠标拖动
+          disableTouch: false//启用手指触摸
         });
         console.log(this.scroll);
         this.scroll.on("scroll", (position) => {

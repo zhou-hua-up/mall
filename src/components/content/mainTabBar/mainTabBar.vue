@@ -1,8 +1,5 @@
 <template>
   <div class="wrapper">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <Tab-Bar>
       <tab-bar-item path="/home" >
         <img slot="item-icon" src="~assets/img/tabbar/ic_tabbar_home_select.png" alt />
