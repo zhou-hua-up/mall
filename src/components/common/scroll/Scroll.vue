@@ -14,15 +14,15 @@ export default {
     probetype: {
       type: Number,
       default() {
-        return 0
-      }
+        return 0;
+      },
     },
-     pullupload: {
-        type: Boolean,
-        default() {
-          return false
-        }
-      }
+    pullupload: {
+      type: Boolean,
+      default() {
+        return false;
+      },
+    },
   },
   data() {
     return {
@@ -37,31 +37,35 @@ export default {
           probeType: this.probetype,
           pullUpLoad: this.pullupload,
 
-          mouseWheel: true,//开启鼠标滚轮
-          disableMouse: false,//启用鼠标拖动
-          disableTouch: false//启用手指触摸
+          mouseWheel: true, //开启鼠标滚轮
+          disableMouse: false, //启用鼠标拖动
+          disableTouch: false, //启用手指触摸
         });
         console.log(this.scroll);
-        this.scroll.on("scroll", (position) => {
-          this.$emit("scrollHeight", position)
-        })
-        this.scroll.on("pullingUp", () => {
-          this.$emit("pullingUp")
-        })
+        if(this.probetype === 2 || this.probetype === 3) {
+           this.scroll.on("scroll", (position) => {
+          this.$emit("scrollHeight", position);
+        });
+        }
+
+        this.pullupload &&
+          this.scroll.on("pullingUp", () => {
+            this.$emit("pullingUp");
+          });
       }
     });
   },
   methods: {
     refreshScroll() {
-      console.log("....");
+      console.log("...."); 
       this.scroll && this.scroll.refresh();
     },
     scrollTo(x, y, time = 300) {
       this.scroll && this.scroll.scrollTo(x, y, time);
     },
     finishPullUp() {
-      this.scroll.finishPullUp();
-    }
+      this.scroll && this.scroll.finishPullUp();
+    },
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="GoodsListItem">
-      <img :src="goodsItem.show.img" alt @load="imageLoad"  @click="itemClick" />
+    <img :src="showImage" alt @load="imageLoad" @click="itemClick" />
     <div class="info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -22,14 +22,29 @@ export default {
   },
   methods: {
     imageLoad() {
-      this.$bus.$emit("ItemImageLoad")
+      // 这里可以针对路由设定每个页面的指定的加载完成事件，这样当detail页面的GoodsListItem图片加载完成之后，
+      // 就不会触发Home组件的刷新事件,这是第一种办法
+      // 第二种办法是在离开页面的时候，取消掉监听事件 利用this.$bus.$off("监听的事件"，"要做的事情的方法名字")
+      if ((this.$route.path.indexOf("/home")) != -1) {
+        this.$bus.$emit("homeImageLoad");
+        console.log("true");
+      }else if((this.$route.path.indexOf("/detail")) != -1) {
+        this.$bus.$emit("detailImageLoad");
+        console.log("true");
+      }
     },
     itemClick() {
       // 拼接参数
-      this.$router.push("/detail/" + this.goodsItem.iid)
+      this.$router.push("/detail/" + this.goodsItem.iid);
       // console.log("点击");
-    }
-  }
+    },
+  },
+  computed: {
+    showImage() {
+      // 这里 || 的左右顺序不能变
+      return this.goodsItem.image || this.goodsItem.show.img;
+    },
+  },
 };
 </script>
 
@@ -60,7 +75,7 @@ export default {
 }
 
 .info .collect::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 14px;
   height: 14px;

@@ -23,10 +23,11 @@ import FeatureView from "./childrencom/FeatureView";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import backTop from "components/content/backTop/BackTop";
 
 import { getHomeMultiData, getHomeGoods } from "network/home";
 
+
+import {backTopMIX} from 'common/mixin'
 import {debounce} from 'common/utils'
 
 export default {
@@ -39,8 +40,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    backTop,
   },
+  mixins: [backTopMIX],
   data() {
     return {
       banners: [],
@@ -60,7 +61,6 @@ export default {
         },
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabHeight: 0,
       isShowControl1: false
     };
@@ -78,8 +78,8 @@ export default {
   },
   mounted() {
     // 这个防抖动函数放在外面 否则每次加载会重新初始化这个防抖函数
-    const refresh = debounce(this.$refs.scroll.refreshScroll, 500)
-    this.$bus.$on("ItemImageLoad", () => {
+    const refresh = debounce(this.$refs.scroll.refreshScroll, 200)
+    this.$bus.$on("homeImageLoad", () => {
        refresh();
     });
   },
@@ -100,22 +100,22 @@ export default {
       this.$refs.tabControl1.currentIndex = index
       this.$refs.tabControl2.currentIndex = index
     },
-    topClick() {
-      this.$refs.scroll.scrollTo(0, 0, 400);
-    },
     contentScroll(position) {
+      // console.log(position.y);
       this.isShowBackTop = (-position.y) > 1000
-      this.isShowControl1 = (-position.y) > this.tabHeight
+      this.isShowControl1 = (-position.y) > 610
     },
     loadMore() {
       this.getHomeGoods(this.currentType)
     },
     // 获取tabControl栏距离顶部的高度
     getTabHeight() {
-      this.tabHeight = this.$refs.tabControl2.$el.offsetTop 
+      // 这个问题还没解决
+      // 这个测试高度再第一次打开网页的时候，测得的高度是错误的 所以直接测试滚动得到具体的610高度
+      // this.tabHeight = this.$refs.tabControl2.$el.offsetTop 
+      // console.log(this.tabHeight);
     },
-   
-
+  
     /* 网络请求相关方法  */
     getHomeMultiData() {
       getHomeMultiData().then((res) => {
@@ -143,7 +143,6 @@ export default {
   text-align: center;
 }
 #home {
-  padding-top: 44px;
   position: relative;
   height: 100vh;
 }
