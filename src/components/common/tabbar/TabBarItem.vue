@@ -1,5 +1,5 @@
 <template>
-  <div id="tab-bar-item" @click="itemCheck">
+  <div class="tab-bar-item" @click="itemCheck">
     <div v-if="!isActive">
       <slot name="item-icon"></slot>
     </div>
@@ -30,11 +30,6 @@ export default {
       return this.isActive ? { color: this.activecolor } : {};
     },
   },
-  data() {
-    return {
-      // isActive: false
-    };
-  },
   methods: {
     itemCheck() {
       // 如果现在活跃的路由路径不等于请求跳转的路径 才进行跳转
@@ -47,12 +42,12 @@ export default {
 </script>
 
 <style scoped>
-#tab-bar-item {
+.tab-bar-item {
   flex: 1;
   text-align: center;
   font-size: 13px;
 }
-#tab-bar-item img {
+.tab-bar-item img {
   width: 20px;
   vertical-align: middle;
   margin-top: 6px;

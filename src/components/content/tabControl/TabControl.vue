@@ -37,12 +37,7 @@ export default {
   text-align: center;
   font-size: 14px;
   background-color: #fff;
-
-  /* 这只用于原生js滚动停留 */
-  /* position: sticky;
-  top: 44px; */
-
-  /* z-index: 9; */
+  width: 100%;
 }
 .tabItem {
   flex: 1;

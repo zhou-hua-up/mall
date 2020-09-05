@@ -5,6 +5,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+// 路由懒加载
 const Home = () => import('views/home/Home');
 const Category = () => import('views/category/Category');
 const Cart = () => import('views/cart/Cart');

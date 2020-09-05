@@ -2,7 +2,7 @@
   <div id="recommend">
     <div v-for="(item, key) in recommends" :key="key" class="recommendItem">
       <a :href="item.link">
-        <img :src="item.image" alt="">
+        <img :src="item.image" alt />
         <div>{{item.title}}</div>
       </a>
     </div>
@@ -11,16 +11,16 @@
 
 <script>
 export default {
-  name: 'App' ,
+  name: "App",
   props: {
     recommends: {
       type: Array,
       default() {
-        return []
-      }
-    }
-  }
-}
+        return [];
+      },
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -37,11 +37,11 @@ export default {
           probeType: this.probetype,
           pullUpLoad: this.pullupload,
 
+          // 这三步避免第一次不能滚动
           mouseWheel: true, //开启鼠标滚轮
           disableMouse: false, //启用鼠标拖动
           disableTouch: false, //启用手指触摸
         });
-        console.log(this.scroll);
         if(this.probetype === 2 || this.probetype === 3) {
            this.scroll.on("scroll", (position) => {
           this.$emit("scrollHeight", position);
@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     refreshScroll() {
-      console.log("...."); 
       this.scroll && this.scroll.refresh();
     },
     scrollTo(x, y, time = 300) {

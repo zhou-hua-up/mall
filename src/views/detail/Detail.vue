@@ -1,9 +1,9 @@
 <template>
   <div id="detail">
     <child-nav-bar class="nav-bar" @titleClick="titleCheck" ref="nav" />
-    <ul>
+    <!-- <ul>
       <li v-for="(item, index) in this.$store.state.cartList" :key="index">{{item.iid}}{{item.count}}</li>
-    </ul>
+    </ul> -->
     <scroll class="content" ref="scroll" :probetype="3" @scrollHeight="scrollContent">
       <child-swipper :top-images="topImages" class="swipper"></child-swipper>
       <detail-base-info :goods="goods" />
@@ -43,6 +43,8 @@ import {backTopMIX} from 'common/mixin'
 import { debounce } from "common/utils";
 
 import { imageListener } from "common/mixin";
+
+import {mapActions} from 'vuex'
 export default {
   name: "Detail",
   components: {
@@ -155,6 +157,7 @@ export default {
       }
       this.isShowBackTop = (-position.y) > 1000
     },
+    ...mapActions(["addProduct"]),
     addTOCart() {
       // 1.获取购物车界面需要展示的数据
       const product = {}
@@ -164,8 +167,13 @@ export default {
       product.price = this.goods.lowNowPrice
       product.iid = this.id
 
-      // 2.提交
-      this.$store.dispatch("addProduct", product)
+      // 2.提交(普通方式)
+      // this.$store.dispatch("addProduct", product).then(res => {
+      //   console.log(res);
+      // })
+      this.addProduct(product).then(res => {
+        this.$toast.show(res, 1500)
+      })
     }
   },
 };

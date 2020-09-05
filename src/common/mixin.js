@@ -1,5 +1,6 @@
 import {debounce} from 'common/utils'
-
+// 通过混入将返回顶部按钮从组件中抽离出来，哪个组件需要使用就直接混入使用
+// 数据组件方法都可以混入
 import backTop from "components/content/backTop/BackTop";
 
 export const imageListener = {

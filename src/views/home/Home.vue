@@ -3,9 +3,22 @@
     <nav-bar class="home-nav">
       <div slot="center">购物中心</div>
     </nav-bar>
-      <TabControl :titles="['流行', '新款', '精选']" @tabClick="tabClick" ref="tabControl1" v-show="isShowControl1" class="showControl" />
-    <Scroll class="content" ref="scroll" :probetype="3" @scrollHeight="contentScroll" :pullupload="true" @pullingUp="loadMore">
-      <homeSwipper :banners="banners" @swipperLoad="getTabHeight" />
+    <TabControl
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      v-show="isShowControl1"
+      class="showControl"
+    />
+    <Scroll
+      class="content"
+      ref="scroll"
+      :probetype="3"
+      @scrollHeight="contentScroll"
+      :pullupload="true"
+      @pullingUp="loadMore"
+    >
+      <homeSwipper :banners="banners" @swipperLoad="getTabHeight" ref="swipper" />
       <recommend :recommends="recommends" />
       <feature-view />
       <TabControl :titles="['流行', '新款', '精选']" @tabClick="tabClick" ref="tabControl2" />
@@ -26,9 +39,8 @@ import Scroll from "components/common/scroll/Scroll";
 
 import { getHomeMultiData, getHomeGoods } from "network/home";
 
-
-import {backTopMIX} from 'common/mixin'
-import {debounce} from 'common/utils'
+import { backTopMIX } from "common/mixin";
+import { debounce } from "common/utils";
 
 export default {
   name: "App",
@@ -62,7 +74,7 @@ export default {
       },
       currentType: "pop",
       tabHeight: 0,
-      isShowControl1: false
+      isShowControl1: false,
     };
   },
   computed: {
@@ -78,10 +90,11 @@ export default {
   },
   mounted() {
     // 这个防抖动函数放在外面 否则每次加载会重新初始化这个防抖函数
-    const refresh = debounce(this.$refs.scroll.refreshScroll, 200)
+    const refresh = debounce(this.$refs.scroll.refreshScroll, 200);
     this.$bus.$on("homeImageLoad", () => {
-       refresh();
+      refresh();
     });
+      // location.reload()
   },
   methods: {
     /* 事件监听相关方法  */
@@ -97,25 +110,26 @@ export default {
           this.currentType = "sell";
           break;
       }
-      this.$refs.tabControl1.currentIndex = index
-      this.$refs.tabControl2.currentIndex = index
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     contentScroll(position) {
       // console.log(position.y);
-      this.isShowBackTop = (-position.y) > 1000
-      this.isShowControl1 = (-position.y) > 610
+      this.isShowBackTop = -position.y > 1000;
+      this.isShowControl1 = -position.y > this.tabHeight;
     },
     loadMore() {
-      this.getHomeGoods(this.currentType)
+      this.getHomeGoods(this.currentType);
     },
     // 获取tabControl栏距离顶部的高度
     getTabHeight() {
       // 这个问题还没解决
-      // 这个测试高度再第一次打开网页的时候，测得的高度是错误的 所以直接测试滚动得到具体的610高度
-      // this.tabHeight = this.$refs.tabControl2.$el.offsetTop 
-      // console.log(this.tabHeight);
+      // 这个测试高度在第一次打开网页的时候，测得的高度是错误的 所以直接测试滚动得到具体的610高度
+      // 所以当使用postcss-px-to-viewport做适配的时候因为会有变化，所以这个吸顶效果会有错
+      // 只有再刷新一次后可以获得正确值
+      this.tabHeight = this.$refs.tabControl2.$el.offsetTop;
+      console.log(this.tabHeight);
     },
-  
     /* 网络请求相关方法  */
     getHomeMultiData() {
       getHomeMultiData().then((res) => {
@@ -128,8 +142,8 @@ export default {
       getHomeGoods(type, this.goods[type].page).then((res) => {
         this.goods[type].list.push(...res.data.list);
         setTimeout(() => {
-          this.$refs.scroll.finishPullUp()
-        },2000)
+          this.$refs.scroll.finishPullUp();
+        }, 2000);
       });
     },
   },
@@ -149,16 +163,18 @@ export default {
 
 .content {
   /* 通过定位设置显示高度 注意这里父元素必须是视口高度 否则不行 */
-  position: absolute;
+  /* position: absolute;
   top: 44px;
   bottom: 49px;
   left: 0;
-  right: 0;
+  right: 0; */
+  height: calc(100% - 44px - 49px);
   overflow: hidden;
+  position: relative;
 }
 
 .showControl {
-  position: relative;
-   z-index: 9;
+  position: absolute;
+  z-index: 9;
 }
 </style>

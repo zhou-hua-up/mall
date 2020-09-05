@@ -1,6 +1,6 @@
 <template>
   <div class="GoodsListItem">
-    <img :src="showImage" alt @load="imageLoad" @click="itemClick" />
+    <img v-lazy="showImage" alt @load="imageLoad" @click="itemClick" />
     <div class="info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -27,16 +27,13 @@ export default {
       // 第二种办法是在离开页面的时候，取消掉监听事件 利用this.$bus.$off("监听的事件"，"要做的事情的方法名字")
       if ((this.$route.path.indexOf("/home")) != -1) {
         this.$bus.$emit("homeImageLoad");
-        console.log("true");
       }else if((this.$route.path.indexOf("/detail")) != -1) {
         this.$bus.$emit("detailImageLoad");
-        console.log("true");
       }
     },
     itemClick() {
       // 拼接参数
       this.$router.push("/detail/" + this.goodsItem.iid);
-      // console.log("点击");
     },
   },
   computed: {
