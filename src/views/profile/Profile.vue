@@ -34,6 +34,7 @@ export default {
   font-weight: 600;
   color: white;
   background-color: #ff8198;
+  text-align: center;
 }
 .line {
   width: 100%;

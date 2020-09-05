@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 export function request(config) {
   const instance = Axios.create({
-    baseURL: "http://152.136.185.210:8000/api/z8",
+    baseURL: "xxxxx",
     timeout: 5000
   })
 
